@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Adoption Interest Queue | Animal Shelter</title>
+<meta name="description" content="Digital adoption interest queue for animal shelter floor staff. Add, search, and track adopters in the order they asked." />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="container">
+    <p class="site-header__org">Animal Shelter Operations</p>
+    <h1>Adoption Interest Queue</h1>
+    <p class="site-header__sub">Track everyone waiting to adopt, in the order they asked.</p>
+  </div>
+</header>
+
+<div class="container notices">
+  <p id="offline-banner" class="banner" role="status" hidden>
+    You appear to be offline. Changes cannot be saved until your connection returns.
+  </p>
+  <p id="status-msg" class="banner banner--ok" role="status"></p>
+  <p id="alert-msg" class="banner banner--error" role="alert"></p>
+</div>
+
+<main id="main" class="container layout">
+
+  <!-- ===== ADD FORM ===== -->
+  <section class="card form-card" aria-labelledby="form-title">
+    <h2 id="form-title">Add adoption interest</h2>
+
+    <div id="form-summary" class="form-summary" role="alert" tabindex="-1" hidden></div>
+
+    <form id="interest-form" novalidate>
+      <div class="field">
+        <label for="f-name">Adopter full name</label>
+        <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="60"
+               aria-describedby="h-name e-name" />
+        <p id="h-name" class="hint">Letters, spaces, apostrophes and hyphens only.</p>
+        <p id="e-name" class="error"></p>
+      </div>
+
+      <div class="field">
+        <label for="f-contact">Phone or email</label>
+        <input id="f-contact" name="contact" type="text" inputmode="email" autocomplete="off" required maxlength="80"
+               aria-describedby="h-contact e-contact" />
+        <p id="h-contact" class="hint">Example: name@email.com or +91 90000 00000.</p>
+        <p id="e-contact" class="error"></p>
+      </div>
+
+      <div class="field">
+        <label for="f-animal">Animal of interest</label>
+        <input id="f-animal" name="animal" type="text" autocomplete="off" required maxlength="40"
+               aria-describedby="h-animal e-animal" />
+        <p id="h-animal" class="hint">The animal's name, for example Bruno.</p>
+        <p id="e-animal" class="error"></p>
+      </div>
+
+      <div class="field">
+        <label for="f-type">Animal type</label>
+        <select id="f-type" name="type" required aria-describedby="e-type">
+          <option value="">Select a type</option>
+          <option value="Dog">Dog</option>
+          <option value="Cat">Cat</option>
+          <option value="Rabbit">Rabbit</option>
+          <option value="Other">Other</option>
+        </select>
+        <p id="e-type" class="error"></p>
+      </div>
+
+      <div class="field" id="other-type-field" hidden>
+       <label for="f-other-type">Specify animal type</label>
+       <input
+        id="f-other-type"
+        name="otherType"
+        type="text"
+        placeholder="Enter animal type"
+       />
+     <p id="e-other-type" class="error"></p>
+      </div>
+
+      <div class="field">
+        <label for="f-notes">Notes (optional)</label>
+        <textarea id="f-notes" name="notes" rows="3" maxlength="200"
+                  aria-describedby="h-notes e-notes"></textarea>
+        <p id="h-notes" class="hint">Up to 200 characters.</p>
+        <p id="e-notes" class="error"></p>
+      </div>
+
+      <button type="submit" id="submit-btn" class="btn btn--primary btn--block">Add to queue</button>
+    </form>
+  </section>
+
+  <!-- ===== QUEUE ===== -->
+  <section class="card queue-card" id="queue-region" aria-labelledby="queue-title" aria-busy="true">
+    <div class="queue-head">
+      <h2 id="queue-title" tabindex="-1">Queue</h2>
+      <p id="saving" class="saving" role="status" hidden>
+        <span class="spinner" aria-hidden="true"></span><span>Saving changes…</span>
+      </p>
+    </div>
+
+    <ul class="stats" aria-label="Queue summary">
+      <li><strong id="stat-waiting">0</strong> Waiting</li>
+      <li><strong id="stat-contacted">0</strong> Contacted</li>
+      <li><strong id="stat-completed">0</strong> Completed</li>
+    </ul>
+
+    <div class="toolbar">
+      <div class="field field--inline">
+        <label for="search">Search queue</label>
+        <input id="search" type="search" autocomplete="off" maxlength="60"
+               placeholder="Name, animal, or contact" aria-controls="queue-body" />
+      </div>
+      <div class="field field--inline">
+        <label for="filter">Filter by status</label>
+        <select id="filter" aria-controls="queue-body">
+          <option value="all">All</option>
+          <option value="waiting">Waiting</option>
+          <option value="contacted">Contacted</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+    </div>
+
+    <p id="result-count" class="result-count" role="status" aria-live="polite"></p>
+
+    <div id="queue-body"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <p>Ticket ENG-22666 · Adoption Interest Queue</p>
+    <div class="qa-tool">
+      <input id="simulate-fail" type="checkbox" />
+      <label for="simulate-fail">QA tool: simulate a failed connection</label>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
